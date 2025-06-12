@@ -10,6 +10,7 @@ import RSVPForm from "@/components/RSVPForm";
 import ThankYou from "@/components/ThankYou";
 import Sampul from "./Sampul";
 import { SpeakerWaveIcon, SpeakerXMarkIcon } from "@heroicons/react/24/solid";
+import Image from "next/image";
 
 export default function Cover() {
   const [opened, setOpened] = useState(false);
@@ -92,9 +93,11 @@ export default function Cover() {
           {/* Profile Image - Mobile Optimized */}
           <div className="relative mb-5 flex justify-center">
             <div className="absolute inset-0 bg-gradient-to-r from-emerald-400 to-teal-400 rounded-full blur-xl opacity-20 scale-110 animate-pulse"></div>
-            <img
+            <Image
               src="/sunat.png"
               alt="Ajriyyan"
+              width={128}
+              height={128}
               className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full object-cover shadow-2xl border-3 border-white/50 backdrop-blur-sm hover:scale-105 transition-transform duration-300"
             />
             <div className="absolute -bottom-1 -right-1 w-6 h-6 sm:w-7 sm:h-7 bg-emerald-500 rounded-full flex items-center justify-center shadow-lg">

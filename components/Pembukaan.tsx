@@ -28,7 +28,7 @@ export default function Pembukaan() {
           className="text-3xl text-emerald-900 mb-2"
           style={{ fontFamily: "var(--font-undangan)" }}
         >
-          Muhammad Ajriyyan Gussyafe'i
+          Muhammad Ajriyyan Gussyafe&apos;i
         </h2>
 
         <p className="text-[#5d7271] mb-6 text-sm">

@@ -1,43 +1,45 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { db } from '@/lib/firebase'
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore'
+import { useState } from "react";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import {
   UserIcon,
   UserGroupIcon,
   PencilIcon,
   CheckCircleIcon,
-} from '@heroicons/react/24/outline'
+} from "@heroicons/react/24/outline";
 
 export default function RSVPForm() {
-  const [nama, setNama] = useState('')
-  const [jumlah, setJumlah] = useState(1)
-  const [catatan, setCatatan] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [berhasil, setBerhasil] = useState(false)
+  const [nama, setNama] = useState("");
+  const [jumlah, setJumlah] = useState(1);
+  const [catatan, setCatatan] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [berhasil, setBerhasil] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!nama) return alert('Nama wajib diisi')
+    e.preventDefault();
+    if (!nama) return alert("Nama wajib diisi");
 
-    setLoading(true)
+    setLoading(true);
     try {
-      await addDoc(collection(db, 'rsvp'), {
+      await addDoc(collection(db, "rsvp"), {
         nama,
         jumlah,
         catatan,
         createdAt: serverTimestamp(),
-      })
-      setBerhasil(true)
-      setNama('')
-      setJumlah(1)
-      setCatatan('')
+      });
+      setBerhasil(true);
+      setNama("");
+      setJumlah(1);
+      setCatatan("");
     } catch (err) {
-      alert('Gagal mengirim RSVP')
+      console.error(err);
+      alert("Gagal mengirim RSVP");
     }
-    setLoading(false)
-  }
+
+    setLoading(false);
+  };
 
   return (
     <section className="w-full py-16 px-6 bg-gradient-to-b from-white to-emerald-50 relative overflow-hidden">
@@ -48,7 +50,7 @@ export default function RSVPForm() {
       <div className="relative z-10 max-w-lg mx-auto bg-white p-8 rounded-xl shadow-md border border-emerald-100 animate-fade-in-up">
         <h2
           className="text-2xl font-bold text-center text-emerald-900 mb-6"
-          style={{ fontFamily: 'var(--font-undangan)' }}
+          style={{ fontFamily: "var(--font-undangan)" }}
         >
           Konfirmasi Kehadiran
         </h2>
@@ -56,13 +58,17 @@ export default function RSVPForm() {
         {berhasil ? (
           <div className="text-center text-emerald-700">
             <CheckCircleIcon className="w-10 h-10 mx-auto mb-2 text-emerald-500" />
-            <p className="font-medium">Terima kasih! RSVP kamu sudah tercatat.</p>
+            <p className="font-medium">
+              Terima kasih! RSVP kamu sudah tercatat.
+            </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
             {/* Nama */}
             <div>
-              <label className="block text-sm font-medium text-emerald-800 mb-1">Nama</label>
+              <label className="block text-sm font-medium text-emerald-800 mb-1">
+                Nama
+              </label>
               <div className="relative">
                 <UserIcon className="w-5 h-5 absolute top-2.5 left-3 text-emerald-400" />
                 <input
@@ -78,7 +84,9 @@ export default function RSVPForm() {
 
             {/* Jumlah orang */}
             <div>
-              <label className="block text-sm font-medium text-emerald-800 mb-1">Jumlah yang ikut</label>
+              <label className="block text-sm font-medium text-emerald-800 mb-1">
+                Jumlah yang ikut
+              </label>
               <div className="relative">
                 <UserGroupIcon className="w-5 h-5 absolute top-2.5 left-3 text-emerald-400" />
                 <input
@@ -94,7 +102,9 @@ export default function RSVPForm() {
 
             {/* Catatan */}
             <div>
-              <label className="block text-sm font-medium text-emerald-800 mb-1">Catatan (opsional)</label>
+              <label className="block text-sm font-medium text-emerald-800 mb-1">
+                Catatan (opsional)
+              </label>
               <div className="relative">
                 <PencilIcon className="w-5 h-5 absolute top-2.5 left-3 text-emerald-400" />
                 <textarea
@@ -112,7 +122,7 @@ export default function RSVPForm() {
               disabled={loading}
               className="w-full bg-emerald-600 text-white font-semibold py-2 rounded-full hover:bg-emerald-700 transition"
             >
-              {loading ? 'Mengirim...' : 'Kirim RSVP'}
+              {loading ? "Mengirim..." : "Kirim RSVP"}
             </button>
           </form>
         )}
@@ -135,5 +145,5 @@ export default function RSVPForm() {
         }
       `}</style>
     </section>
-  )
+  );
 }

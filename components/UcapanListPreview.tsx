@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { db } from "@/lib/firebase";
 import {
   collection,
@@ -36,50 +36,52 @@ export default function UcapanListPreview() {
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
 
-  const fetchPage = async (pageNumber: number) => {
-    setLoading(true);
+const fetchPage = useCallback(async (pageNumber: number) => {
+  setLoading(true);
 
-    let q;
+  let q;
 
-    if (pageNumber === 1) {
-      q = query(
-        collection(db, "ucapan"),
-        orderBy("createdAt", "desc"),
-        limit(PAGE_SIZE)
-      );
-    } else {
-      const last = pageDocs[pageNumber - 2]; // page 2 => index 0
-      if (!last) return;
-      q = query(
-        collection(db, "ucapan"),
-        orderBy("createdAt", "desc"),
-        startAfter(last),
-        limit(PAGE_SIZE)
-      );
-    }
+  if (pageNumber === 1) {
+    q = query(
+      collection(db, "ucapan"),
+      orderBy("createdAt", "desc"),
+      limit(PAGE_SIZE)
+    );
+  } else {
+    const last = pageDocs[pageNumber - 2];
+    if (!last) return;
+    q = query(
+      collection(db, "ucapan"),
+      orderBy("createdAt", "desc"),
+      startAfter(last),
+      limit(PAGE_SIZE)
+    );
+  }
 
-    const snapshot = await getDocs(q);
-    const newData = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    })) as UcapanItem[];
+  const snapshot = await getDocs(q);
+  const newData = snapshot.docs.map((doc) => ({
+    id: doc.id,
+    ...doc.data(),
+  })) as UcapanItem[];
 
-    setUcapan(newData);
-    setCurrentPage(pageNumber);
-    setHasMore(snapshot.docs.length === PAGE_SIZE);
+  setUcapan(newData);
+  setCurrentPage(pageNumber);
+  setHasMore(snapshot.docs.length === PAGE_SIZE);
 
-    if (snapshot.docs.length > 0 && !pageDocs[pageNumber - 1]) {
-      const newPageDocs = [...pageDocs];
-      newPageDocs[pageNumber - 1] = snapshot.docs[snapshot.docs.length - 1];
-      setPageDocs(newPageDocs);
-    }
+  if (snapshot.docs.length > 0 && !pageDocs[pageNumber - 1]) {
+    const newPageDocs = [...pageDocs];
+    newPageDocs[pageNumber - 1] = snapshot.docs[snapshot.docs.length - 1];
+    setPageDocs(newPageDocs);
+  }
 
-    setLoading(false);
-  };
+  setLoading(false);
+}, [pageDocs]);
 
-  useEffect(() => {
-    fetchPage(1);
-  }, []);
+
+useEffect(() => {
+  fetchPage(1);
+}, [fetchPage]);
+
 
   return (
     <section className="w-full py-16 px-6 bg-gradient-to-b from-white to-emerald-50 relative overflow-hidden">

@@ -20,7 +20,7 @@ export default function UcapanHarapan() {
             style={{ fontFamily: "var(--font-undangan)" }}
             className="text-emerald-800"
           >
-            Muhammad Ajriyyan Gussyafe'i
+            Muhammad Ajriyyan Gussyafe&apos;i
           </span>{" "}
           tumbuh menjadi anak yang sholeh, berbakti kepada orang tua, serta
           berguna bagi agama, nusa, dan bangsa.
