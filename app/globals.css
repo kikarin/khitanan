@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --font-undangan: var(--font-great-vibes);
 }
 
 @theme inline {
@@ -23,4 +24,28 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+.input-modern {
+  @apply border rounded-md px-3 py-2 w-full text-sm focus:outline-none focus:ring-2 focus:ring-[#6bae9c];
+}
+
+.btn-primary {
+  @apply bg-[#6bae9c] hover:bg-[#5d7271] text-white font-semibold py-2 px-4 rounded-lg transition duration-300;
+}
+
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.8s ease-out both;
 }
